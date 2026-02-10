@@ -1,0 +1,58 @@
+@model IEnumerable<FoodTracker.Models.Food>
+@{
+    ViewData["Title"] = "Food Catalogue";
+}
+<h1>Food Catalogue</h1>
+<p>
+    <a asp-action="Create" class="btn btn-primary">Create New</a>
+</p>
+<table class="table">
+    <thead>
+        <tr>
+            <th>@Html.DisplayNameFor(m => m.Name)</th>
+            <th>@Html.DisplayNameFor(m => m.Description)</th>
+            <th>@Html.DisplayNameFor(m => m.Calories)</th>
+            <th>@Html.DisplayNameFor(m => m.Fats)</th>
+            <th>@Html.DisplayNameFor(m => m.Carbohydrates)</th>
+            <th>@Html.DisplayNameFor(m => m.Proteins)</th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>@Html.DisplayFor(_ => item.Name)</td>
+                <td>@Html.DisplayFor(_ => item.Description)</td>
+                <td>@Html.DisplayFor(_ => item.Calories)</td>
+                <td>@Html.DisplayFor(_ => item.Fats)</td>
+                <td>@Html.DisplayFor(_ => item.Carbohydrates)</td>
+                <td>@Html.DisplayFor(_ => item.Proteins)</td>
+                <td>
+                    <a asp-action="Edit" asp-route-id="@item.Id" class="btn btn-sm btn-outline-primary">Edit</a>
+                    <a asp-action="Details" asp-route-id="@item.Id" class="btn btn-sm btn-outline-secondary">Details</a>
+                    <a asp-action="Delete" asp-route-id="@item.Id" class="btn btn-sm btn-outline-danger">Delete</a>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
+@{
+    var currentPage = (int)ViewBag.CurrentPage;
+    var totalPages = (int)ViewBag.TotalPages;
+    var totalCount = (int)ViewBag.TotalCount;
+}
+@if (totalPages > 1)
+{
+    <nav>
+        <span>Page @currentPage of @totalPages (@totalCount items)</span>
+        @if (currentPage > 1)
+        {
+            <a asp-action="Index" asp-route-page="@(currentPage - 1)" class="btn btn-sm btn-secondary ms-2">Previous</a>
+        }
+        @if (currentPage < totalPages)
+        {
+            <a asp-action="Index" asp-route-page="@(currentPage + 1)" class="btn btn-sm btn-secondary ms-1">Next</a>
+        }
+    </nav>
+}

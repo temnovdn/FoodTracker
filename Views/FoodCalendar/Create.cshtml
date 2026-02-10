@@ -1,0 +1,35 @@
+@model FoodTracker.Models.ConsumedFoodViewModel
+@{
+    ViewData["Title"] = "Add consumed food";
+}
+<h1>Add consumed food</h1>
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        <form asp-action="Create">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <div class="form-group mb-2">
+                <label asp-for="Date" class="control-label"></label>
+                <input asp-for="Date" class="form-control" type="date" />
+                <span asp-validation-for="Date" class="text-danger"></span>
+            </div>
+            <div class="form-group mb-2">
+                <label asp-for="FoodId" class="control-label"></label>
+                <select asp-for="FoodId" class="form-control" asp-items="ViewBag.FoodId"></select>
+                <span asp-validation-for="FoodId" class="text-danger"></span>
+            </div>
+            <div class="form-group mb-2">
+                <label asp-for="QuantityGrams" class="control-label"></label>
+                <input asp-for="QuantityGrams" class="form-control" />
+                <span asp-validation-for="QuantityGrams" class="text-danger"></span>
+            </div>
+            <div class="form-group mt-3">
+                <input type="submit" value="Add" class="btn btn-primary" />
+                <a asp-action="Index" asp-route-date="@Model.Date.ToString("yyyy-MM-dd")" class="btn btn-secondary">Back to calendar</a>
+            </div>
+        </form>
+    </div>
+</div>
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}

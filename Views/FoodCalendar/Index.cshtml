@@ -1,0 +1,62 @@
+@model IEnumerable<FoodTracker.Models.ConsumedFoodViewModel>
+@{
+    ViewData["Title"] = "Food Calendar";
+    var selectedDate = (DateTime)ViewBag.SelectedDate;
+    var totalCalories = (double)ViewBag.TotalCalories;
+    var totalFats = (double)ViewBag.TotalFats;
+    var totalCarbohydrates = (double)ViewBag.TotalCarbohydrates;
+    var totalProteins = (double)ViewBag.TotalProteins;
+}
+<h1>Food Calendar</h1>
+<form method="get" asp-action="Index" class="mb-3">
+    <label for="date">Date:</label>
+    <input type="date" name="date" id="date" value="@selectedDate.ToString("yyyy-MM-dd")" />
+    <button type="submit" class="btn btn-primary">Show</button>
+</form>
+<p>
+    <a asp-action="Create" asp-route-date="@selectedDate.ToString("yyyy-MM-dd")">Add consumed food</a>
+</p>
+<h2>Consumed food for @selectedDate.ToString("yyyy-MM-dd")</h2>
+<table class="table">
+    <thead>
+        <tr>
+            <th>Food name</th>
+            <th>Quantity (g)</th>
+            <th>Calories</th>
+            <th>Fats</th>
+            <th>Carbohydrates</th>
+            <th>Proteins</th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>@item.FoodName</td>
+                <td>@item.QuantityGrams.ToString("F0")</td>
+                <td>@item.Calories.ToString("F1")</td>
+                <td>@item.Fats.ToString("F1")</td>
+                <td>@item.Carbohydrates.ToString("F1")</td>
+                <td>@item.Proteins.ToString("F1")</td>
+                <td>
+                    <a asp-action="Edit" asp-route-id="@item.Id">Edit</a> |
+                    <a asp-action="Delete" asp-route-id="@item.Id">Delete</a>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
+<div class="border-top pt-2 mt-3">
+    <h3>Total nutrition for the day</h3>
+    <dl class="row">
+        <dt class="col-sm-2">Calories</dt>
+        <dd class="col-sm-10">@totalCalories.ToString("F1")</dd>
+        <dt class="col-sm-2">Fats</dt>
+        <dd class="col-sm-10">@totalFats.ToString("F1") g</dd>
+        <dt class="col-sm-2">Carbohydrates</dt>
+        <dd class="col-sm-10">@totalCarbohydrates.ToString("F1") g</dd>
+        <dt class="col-sm-2">Proteins</dt>
+        <dd class="col-sm-10">@totalProteins.ToString("F1") g</dd>
+    </dl>
+</div>
